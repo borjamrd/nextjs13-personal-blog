@@ -2,10 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --bg: #black;
+  --scout-theme--filter-backdrop: blur(0px);
+  --scout-z-index-base: 9999;
+  --scout-z-index-overlay: 999;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,10 +23,25 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+.dpNFuT {
+  background-image: repeating-linear-gradient(to bottom, transparent, transparent 99px, #686c7328 99px, #686c7328 100px),
+    repeating-linear-gradient(to right, transparent, transparent 99px, #686c7328 99px, #686c7328 100px);
+}
+
+.dpNFuT::after {
+  background-image: radial-gradient(at 40% 40%, rgb(30, 144, 255) 0px, transparent 50%), radial-gradient(at 90% 10%, rgb(255, 105, 180) 0px, transparent 10%), radial-gradient(at 50% 95%, rgb(0, 255, 255) 0px, transparent 50%), radial-gradient(at 20% 30%, rgb(50, 205, 50) 0px, transparent 50%), radial-gradient(at 90% 90%, rgb(255, 255, 0) 0px, transparent 50%), radial-gradient(at 33% 50%, rgb(255, 69, 0) 0px, transparent 50%), radial-gradient(at 79% 53%, rgb(128, 0, 128) 0px, transparent 50%);
+  position: fixed;
+  content: "";
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  filter: blur(100px) saturate(100%);
+  top: 0px;
+  opacity: 0.1;
+  transform: translateZ(0px);
 }

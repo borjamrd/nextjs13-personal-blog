@@ -1,7 +1,10 @@
+import Header from "@/components/Header";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
+import Providers from "@/components/Providers";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,17 +20,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <header>
-          <div className="w-full p-5 flex justify-center items-center">
-            <Link className="text-white" href={"/"}>
-              Home
-            </Link>
-          </div>
-        </header>
-        <section className="flex flex-col gap-2 items-center justify-center w-full h-full py-10">
-          <div className="container max-w-5xl">{children}</div>
-        </section>
+      <body>
+        <Providers>
+          <main
+            className={cn(
+              inter.className,
+              "antialiased min-h-screen transition-colors ease-in-out duration-5000 text-neutral-800  dark:text-slate-100 bg-gradient-to-br from-slate-100 from-60% via-cyan-300 via to-white to-100%  dark:from-black dark:to-[#111111]"
+            )}
+          >
+            <Header />
+            <div className="dpNFuT min-h-screen flex items-center justify-center">
+              <div className="container max-w-5xl">{children}</div>
+            </div>
+          </main>
+        </Providers>
       </body>
     </html>
   );

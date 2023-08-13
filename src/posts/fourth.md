@@ -1,15 +1,18 @@
 ---
-image: /posts/angular.jpg
-title: "Mi primer post"
+title: "Mi portfolio de Angular a Nextjs"
 subtitle: "Cómo Transformé Mi Adorado Portfolio de Angular a Next.js 13 para Potenciar el SEO y Mejorar la Experiencia Visual"
 date: "12-08-2023"
 ---
 
-![Alt text](/posts/angular.jpg "a title")
-
 # Cómo Transformé Mi Adorado Portfolio de Angular a Next.js 13 para Potenciar el SEO y Mejorar la Experiencia Visual
 
 ¡Saludos, comunidad de desarrolladores! Hoy quiero compartir con ustedes mi emocionante viaje de transformar mi adorado portfolio, que originalmente estaba construido en Angular, a la última versión de Next.js (Next.js 13). Esta decisión fue motivada por mi deseo de mejorar el SEO, lograr una mejor integración visual con Tailwind CSS y, por supuesto, elevar las Core Web Vitals para ofrecer una experiencia excepcional a los usuarios. Permítanme compartir mi experiencia y algunos ejemplos de código en TypeScript para ilustrar los cambios clave.
+
+## Motivación y Beneficios
+
+### Mejora del SEO
+
+Si bien Angular es un marco de trabajo sólido, descubrí que Next.js tenía ventajas significativas en términos de optimización para motores de búsqueda (SEO). Con su renderizado del lado del servidor (SSR) y renderizado en el lado del cliente (CSR), Next.js permite que las páginas sean indexadas de manera más efectiva por los motores de búsqueda, lo que lleva a un mejor posicionamiento en los resultados de búsqueda.
 
 ### Integración Visual con Tailwind CSS
 

@@ -15,6 +15,7 @@ const getPostMetadata = (): PostMetadata[] => {
         const timeToRead = readingTime(fileContents).text
         const matterResult = matter(fileContents);
         return {
+            image: matterResult.data.image,
             title: matterResult.data.title,
             date: matterResult.data.date,
             subtitle: matterResult.data.subtitle,
