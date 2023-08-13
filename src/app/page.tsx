@@ -7,7 +7,7 @@ export default function Home() {
     <PostPreview key={post.slug} post={post} />
   ));
   return (
-    <main className="grid grid-cols-3 gap-2">
+    <main className="grid grid-cols-3 gap-2 mt-10">
       <div className="col-span-2 row-span-2">{postPreviews[0]}</div>
       {postPreviews.slice(1, postPreviews.length)}
     </main>

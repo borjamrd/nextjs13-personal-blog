@@ -17,8 +17,8 @@ const Header: FC<HeaderProps> = ({}) => {
   );
   return (
     <header>
-      <div className="w-full bg-opacity-25 backdrop-blur-lg fixed p-3 flex justify-center items-center gap-3 z-30 border-neutral-300 border-b dark:border-neutral-600 shadow-sm">
-        <Link className="absolute left-4" href="https://bmrd.dev/">
+      <div className="w-full bg-opacity-25 backdrop-blur-lg fixed p-3 flex justify-between items-center gap-3 z-30 border-neutral-300 border-b dark:border-neutral-600 shadow-sm">
+        <Link className="" href="https://bmrd.dev/">
           <Button>
             <Image
               alt="webpage"

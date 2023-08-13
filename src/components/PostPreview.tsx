@@ -10,7 +10,7 @@ interface PostPreviewProps {
 const PostPreview: FC<PostPreviewProps> = ({ post }) => {
   return (
     <Link href={`/posts/${post.slug}`}>
-      <div className="h-full flex flex-col justify-end w-full aspect-auto dark:text-neutral-400  text-neutral-600  group rounded-lg border hover:backdrop-blur-sm border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100/30 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
+      <div className="h-full flex flex-col justify-end w-full aspect-auto dark:text-neutral-400  text-neutral-800  group rounded-lg border hover:backdrop-blur-sm border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100/30 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
         <div className="">
           {post?.image && (
             <Image
