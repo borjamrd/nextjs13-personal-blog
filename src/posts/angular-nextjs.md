@@ -29,19 +29,19 @@ npx create-next-app@13 my-portfolio
 
 ### Migración de Componentes
 
-```json title="Example response" {30, 32-73}
-import { Component, Input } from '@angular/core';
+```js title="Example response" {30, 32-73}
+import { Component, Input } from "@angular/core";
 
 @Component({
-  selector: 'app-card',
-  template: '<div>{{ content }}</div>',
+  selector: "app-card",
+  template: "<div>{{ content }}</div>",
 })
 export class CardComponent {
   @Input() content: string;
 }
 
 // Después (Next.js)
-import React from 'react';
+import React from "react";
 
 interface CardProps {
   content: string;
@@ -52,13 +52,12 @@ const Card: React.FC<CardProps> = ({ content }) => {
 };
 
 export default Card;
-
 ```
 
 ### Renderizado del lado del servidor
 
-```
-import React from 'react';
+```js title="rederizado-server"
+import React from "react";
 
 const ServerSideRenderingPage: React.FC = () => {
   return (
