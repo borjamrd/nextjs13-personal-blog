@@ -1,6 +1,6 @@
 ---
 image: /posts/angular.jpg
-title: "Mi primer post"
+title: "Mi segundo post"
 subtitle: "Cómo Transformé Mi Adorado Portfolio de Angular a Next.js 13 para Potenciar el SEO y Mejorar la Experiencia Visual"
 date: "12-08-2023"
 ---
@@ -29,8 +29,7 @@ npx create-next-app@13 my-portfolio
 
 ### Migración de Componentes
 
-```
-// Antes (Angular)
+```json title="Example response" {30, 32-73}
 import { Component, Input } from '@angular/core';
 
 @Component({

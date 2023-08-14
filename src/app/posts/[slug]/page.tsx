@@ -1,7 +1,8 @@
-import fs from "fs";
-import Markdown from "markdown-to-jsx";
-import matter from "gray-matter";
 import getPostMetadata from "@/components/getPostMetadata";
+import fs from "fs";
+import matter from "gray-matter";
+import Markdown from "markdown-to-jsx";
+import { ResolvingMetadata } from "next";
 import readingTime from "reading-time";
 
 const getPostContent = (slug: string) => {
@@ -17,6 +18,19 @@ export const generateStaticParams = async () => {
   const posts = getPostMetadata();
   return posts.map((post) => ({ slug: post.slug }));
 };
+
+type Props = {
+  params: any;
+};
+
+export async function generateMetadata({ params }: Props) {
+  const slug = params.slug;
+  const post = getPostContent(slug);
+  return {
+    title: post.matterResult.data.title,
+    description: post.matterResult.data.subtitle,
+  };
+}
 const PostPage = (props: any) => {
   const slug = props.params.slug;
   const post = getPostContent(slug);
