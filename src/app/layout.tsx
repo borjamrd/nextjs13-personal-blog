@@ -47,12 +47,12 @@ export default function RootLayout({
           <main
             className={cn(
               inter.className,
-              "antialiased min-h-screen transition-colors ease-in-out duration-5000 text-neutral-800  dark:text-slate-100 bg-gradient-to-br from-slate-100 from-60% via-cyan-300 via to-white to-100%  dark:from-black dark:to-[#111111]"
+              "antialiased min-h-screen transition-colors ease-in-out duration-5000 text-neutral-800  dark:text-slate-100 bg-gradient-to-br from-slate-100 from-60% via-cyan-300 via to-white to-100%  dark:from-black dark:to-[#111111] w-full"
             )}
           >
             <Header />
-            <div className="dpNFuT min-h-screen flex items-center justify-center">
-              <div className="container max-w-5xl p-10">{children}</div>
+            <div className="dpNFuT min-h-screen flex items-center justify-center w-full">
+              <div className="container max-w-5xl p-5 lg:p-10">{children}</div>
             </div>
             <Footer />
           </main>

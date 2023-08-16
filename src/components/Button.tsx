@@ -11,7 +11,7 @@ export const buttonVariants = cva("inline-block border", {
       dark: "text-slate-100 bg-slate-800",
     },
     size: {
-      xs: "text-xs px-2.5 py-0.5",
+      xs: "lg:text-xs lg:px-2.5 lg:py-0.5 text-xl px-3 py-1",
       sm: "text-sm px-2.5 py-0.5",
       md: "text-base px-2.5 py-1.5",
       square: "text-base p-1.5",

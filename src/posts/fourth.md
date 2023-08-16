@@ -1,8 +1,11 @@
 ---
+image: /posts/angular.jpg
 title: "Mi portfolio de Angular a Nextjs"
 subtitle: "Cómo Transformé Mi Adorado Portfolio de Angular a Next.js 13 para Potenciar el SEO y Mejorar la Experiencia Visual"
 date: "12-08-2023"
 ---
+
+![Alt text](/posts/angular.jpg "a title")
 
 # Cómo Transformé Mi Adorado Portfolio de Angular a Next.js 13 para Potenciar el SEO y Mejorar la Experiencia Visual
 

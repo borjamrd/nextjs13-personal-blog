@@ -16,10 +16,10 @@ const Header: FC<HeaderProps> = ({}) => {
     { ssr: false }
   );
   return (
-    <header className="fixed flex justify-center w-full  border-neutral-300 border-b backdrop-blur-lg dark:border-neutral-600 bg-opacity-25 shadow-sm  z-30">
-      <div className="container max-w-4xl flex py-1 justify-between items-center gap-3">
+    <header className="fixed flex justify-center w-full  border-neutral-300 border-b backdrop-blur-lg dark:border-neutral-600 bg-opacity-25 shadow-sm z-30 px-5">
+      <div className="container  max-w-4xl flex py-1 justify-between items-center gap-3">
         <Link className="" href="https://bmrd.dev/">
-          <Button>
+          <Button size={"xs"}>
             <Image
               alt="webpage"
               src="/images/favicon.ico"
@@ -31,11 +31,11 @@ const Header: FC<HeaderProps> = ({}) => {
         </Link>
 
         <Link href={"/"}>
-          <Button className="gap-0">
-            <span className="dark:text-yellow-300 font-semibold text-slate-900">
+          <Button size={"xs"} className="gap-0">
+            <p className="dark:text-yellow-300 font-semibold text-slate-900">
               brmd
-            </span>
-            blog
+            </p>
+            <p>blog</p>
           </Button>
         </Link>
 

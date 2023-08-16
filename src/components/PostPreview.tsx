@@ -5,16 +5,17 @@ import Image from "next/image";
 
 interface PostPreviewProps {
   post: PostMetadata;
+  index: number;
 }
 
-const PostPreview: FC<PostPreviewProps> = ({ post }) => {
+const PostPreview: FC<PostPreviewProps> = ({ post, index }) => {
   return (
     <Link href={`/posts/${post.slug}`}>
-      <div className="h-full flex flex-col justify-end w-full aspect-auto dark:text-neutral-400  text-neutral-800  group rounded-lg border hover:backdrop-blur-sm border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100/30 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
+      <div className="lg:mb-0 mb-10 h-full flex flex-col justify-end w-full aspect-auto dark:text-neutral-400  text-neutral-800  group rounded-lg border hover:backdrop-blur-sm border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100/30 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
         <div className="">
-          {post?.image && (
+          {post?.image && index === 0 && (
             <Image
-              src={post.image}
+              src={post?.image}
               height={200}
               width={630}
               className="rounded-lg mb-4"
