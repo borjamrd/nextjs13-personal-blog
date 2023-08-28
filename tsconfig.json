@@ -36,7 +36,7 @@
     ".next/types/**/*.ts",
     "src/components/Mdx.js",
     "src/components/Pre.js"
-  ],
+, "src/components/extension.js"  ],
   "exclude": [
     "node_modules"
   ]

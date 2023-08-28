@@ -78,7 +78,8 @@ const Folder: React.FC<FolderProps> = ({ name, children, open, note }) => {
             <BsFolderMinus className="text-white" fill="none" aria-hidden />
           ) : (
             <BsFolderPlus className="text-white" fill="none" aria-hidden />
-          )}
+          )}{" "}
+        
           <span>
             {name}
             <span className="sr-only">

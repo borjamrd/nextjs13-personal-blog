@@ -1,9 +1,9 @@
 import BackButton from "@/components/BackButton";
+import PostLayout from "@/components/PostLayout";
 import getPostMetadata from "@/components/getPostMetadata";
 import fs from "fs";
 import matter from "gray-matter";
 import readingTime from "reading-time";
-import { PostBody } from "../../../../mdx/post-body";
 
 const getPostContent = (slug: string) => {
   const folder = "src/posts";
@@ -26,7 +26,6 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const slug = params.slug;
-  console.log("params", slug);
   const post = getPostContent(slug);
   return {
     title: post.matterResult.data.title,
@@ -50,7 +49,7 @@ const PostPage = (props: any) => {
         </div>
       </div>
       <article className="prose-sm prose-pre:bg-slate-800 dark:prose-pre:bg-opacity-25 prose-img:max-w-xs prose-pre:max-w-xs lg:prose-pre:max-w-xl xl:prose-pre:max-w-2xl prose-pre:backdrop-blur-lg lg:prose-lg dark:prose-h1:text-slate-100 prose-pre:text-white dark:prose-h2:text-white dark:prose-h3:text-white prose-pre:overflow-auto dark:prose-invert max-w-none prose-a:decoration-purple-600 prose-a:underline-offset-2 prose-headings:scroll-my-20 prose-img:rounded-lg ">
-        <PostBody>{post.matterResult.content}</PostBody>
+        <PostLayout>{post.matterResult.content}</PostLayout>
       </article>
     </div>
   );

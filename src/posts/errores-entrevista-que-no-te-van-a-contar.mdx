@@ -1,0 +1,245 @@
+---
+image: /posts/errores.jpg
+title: "Pequeños errores técnicos a tener en cuenta en cualquier prueba de programación"
+subtitle: "Te mostraré los errores (técnicos) que cometí durante una prueba técnica como junior y cómo me ayudaron a pulir mi código"
+date: "23-08-2023"
+---
+
+![Alt text](/posts/errores.jpg "errores")
+
+# Pequeños errores técnicos a tener en cuenta en cualquier prueba de programación
+
+Una de las muchas técnicas que usan las empresas para calificar un posible candidato es la prueba técnica. No voy a ahondar en los diferentes tipos ni en cómo abordarlas. Este tuturial simplemente ilustra varios errores técnicos (algunos no tan lógicos como pueda parecer) que no sabía en su momento que podían afectar en un proceso de selección.
+
+<Note>
+  Hubo errores que no mostraré por no considerarlos necesarios (errores de
+  navegación, UX, valoraciones en mi opinión subjectivas, etc).
+</Note>
+
+### Table of Contents
+
+## Contexto y prueba
+
+La prueba consistía en la realización de un e-commerce de teléfonos móviles. Más allá de lo normal que podrían pedir para ello (catálogo, carrito y ficha del móvil con fotos e información técnica) se necesitaba que:
+
+- Los productos se obtuvieran mediante una API que ellos me ofrecían.
+- Los datos debían persistir mediante cache, localstorage, etc.
+
+Puedes ver la prueba enviada en: https://github.com/borjamrd/ecommerce-client-borjamunoz
+
+## Error 1º: files not deleted
+
+La prueba la realicé con `create-react-app`. A pesar de que ahora lo haría con `vite` mi primer error fue no eliminar todo el código por defecto que se genera con ese comando: los archivos CSS, el código de `App.js`, `index.js` el archivo `logo.svg`, etc.
+
+Al pricipio sinceramente pensé: menuda estupidez. Pero es cierto que todo detalle ayuda y es bueno que desde el principio intentes tener la menor cantidad de código necesario posible.
+
+## Error 2º: dependencies vs devDependencies
+
+Por lo general estaba (estaba) acostumbrado a instalar las dependencias y no darle importancia a si deben ser de desarrollo o producción.
+
+Las dependencias de desarrollo, como es lógico, no deberían afectar directamente en producción. En mi caso incluí dependencias de testing que deberían estar en desarrollo y que si bien es cierto que operativamente hablando no me habían dado ningún problema no era una buena práctica.
+
+```json
+ "dependencies": {
+    "@heroicons/react": "^2.0.18",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router": "^6.14.1",
+    "react-router-dom": "^6.14.1",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+    "devDependencies": {
+    "daisyui": "^3.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "tailwindcss": "^3.3.2"
+  }
+
+```
+
+## Error 3º: versión dependencias.
+
+Literamente el feedback de este apartado fue: Dependencies in `package.json` should have its versions fixed.
+
+He visto que varios desarrolladores recomendaban eliminar el caret "^" para controlar las versiones exactas de las dependencias pero el que me lo tuvieran en cuenta en una prueba me recordó la necesidad de estar atento a los pequeños detalles.
+
+## Error 4º: Importaciones duplicadas.
+
+En mi caso importé el archivo `index.css` en `index.js` y `App.jsx`. Al componetizar la aplicación dupliqué la importación y no corregí el error antes de enviarla.
+
+Apóyate del uso y configuración de linters para evitar este error.
+
+```jsx
+//App.jsx
+import React, { Suspense } from "react";
+import { Route, Routes } from "react-router";
+import { BrowserRouter } from "react-router-dom";
+import Header from "./components/Header";
+import DefaultLayout from "./containers/DefaultLayout";
+import { CartProvider } from "./context/CartContext";
+import storageExpired from "./helpers/storageExpired";
+import "./index.css"; //duplicado
+import NoMatch from "./pages/NoMatch";
+
+//index.js
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css"; //sólo con tenerlo aquí hubiese bastado
+import reportWebVitals from "./reportWebVitals";
+```
+
+## Error 5º: ojo con las "fragmentaciones".
+
+"Unnecessary use of Fragment in `App.jsx` since the component returns a single element."
+¿Cuántos de nosotros no hemos usamos un fragmento (`<React.Fragment>` o su forma abreviada `<>`) para englobar el contenido de un componente? Pues bien, ojo cuando sea un sólo elemento. Si puede hacerse con un `<div>` o una etiqueta semántica, mejor.
+
+## Error 6º: evita usar clear() en sessionStorage y localStorage.
+
+En mi caso hice uso de una función que mediante `setTimeout` eliminaba la información almacenada en localStorage.
+
+Procura modularizar qué quieres mantener y eliminar en localStorage y prioriza `removeItem('')` sobre `clear()`
+
+```jsx
+const storageExpired = () => {
+  let hours = 1;
+  let now = new Date().getTime();
+  let setupTime = localStorage.getItem("setupTime");
+  if (setupTime == null) {
+    localStorage.setItem("setupTime", now);
+  } else {
+    if (now - setupTime > hours * 60 * 60 * 1000) {
+      localStorage.clear(); // Aquí sería recomendable remover todos aquellos elementos que querramos eliminar en vez de usar el genérico clear().
+      localStorage.setItem("setupTime", now);
+    }
+  }
+};
+
+export default storageExpired;
+```
+
+## Error 7º: nombra bien las funciones y métodos.
+
+El código que te muestro a continuación sirve para señalar varios errores. Comencemos con el primero:
+
+Dentro de `CartContext` hice uso del método `addToCart` para **actualizar** un producto. Inicialmente lo creé para añadir un producto al carrito pero me di cuenta que era mejor en un futuro poder modificar el estado y añadirlo/quitarlo. Pues bien, no modifiqué el nombre para especificar que era actualizar y no añadir.
+
+Si tu función modifica, indícalo, si tu función elimina o añade, indícalo.
+
+```jsx
+import React, { createContext, useState } from "react";
+
+export const CartContext = createContext();
+
+export const CartProvider = ({ children }) => {
+  //hooks, etc.
+  const addToCart = (product) => {
+    if (Array.isArray(product)) {
+      updateProducts([...products, product]);
+    } else if (typeof product === "object" && product !== null) {
+      updateProducts([...products, product]);
+    } else {
+      console.error("addToCart: Product must be an array or an object");
+    }
+  };
+
+  const emptyCart = () => {
+    updateProducts([]);
+  };
+
+  const updateProducts = (products) => {
+    setProducts(products);
+    localStorage.setItem("products", JSON.stringify(products));
+  };
+  const cartContextValue = {
+    products,
+    addToCart,
+    setProducts,
+    emptyCart,
+  };
+
+  return (
+    <CartContext.Provider value={cartContextValue}>
+      {children}
+    </CartContext.Provider>
+  );
+};
+```
+
+En el caso de la actualización del producto en el `CartContext` aglutiné toda la lógica que engloba lo que se puede hacer con un producto y expuse un método que debería ser privado.
+
+```jsx
+const cartContextValue = {
+  products,
+  addToCart,
+  setProducts, //expuesto
+  emptyCart,
+};
+
+//cambiar por
+const cartContextValue = {
+  products,
+  addToCart,
+  emptyCart,
+};
+```
+
+De esta forma utilizo internamente el método `updateProducts`, que a su vez es utilizado por los métodos `addToCart` y `emptyCart`. Esto hace que el diseño sea más coherente al mantener ciertos métodos como "privados" en el ámbito del contexto.
+
+## Error 9º: elimina las variables, métodos y funciones no usadas.
+
+Muchas veces con las prisas, con la intención de implementar funcionalidades, podemos caer en la verbosidad de introducir variables, funciones y métodos que realmente no necesitamos.
+
+Apóyate mucho en el uso de linters para ver las detectar este problema. En mi caso fallé al implementar un abortController para poder abortar las peticiones a la API que no tenía validez práctica para el caso que necesitaba implementar.
+
+```jsx
+const fetchData = () => {
+  const abortController = new AbortController();
+  setController(abortController);
+  fetch(url, {
+    method,
+    body: JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    signal: abortController.signal,
+  })
+    .then((resp) => {
+      if (resp?.status === 500) {
+        return setError("error 500");
+      }
+      return resp.json();
+    })
+    .then((json) => {
+      saveData(json);
+    })
+    .catch((error) => {
+      console.log(error);
+      if (error.name === "AbortError") {
+        console.log("Cancel request");
+      } else {
+        setError(error);
+      }
+    })
+    .finally(() => setLoading(false));
+  return () => abortController.abort();
+};
+```
+
+## Error 10º: antes de escribir, piensa y abstrae.
+
+Este es quizá el más importante.
+
+En cuanto comencé el desarrollo de la aplicación lo primero que implementé fue un hook personalizado `useFetchProducts` de forma que pudiese hacer GET de los productos, manejar los errores y mostrar visualmente un spinner.
+
+Hasta aquí todo normal, el problema vino cuando tenía que realizar la petición POST para recibir los datos de un artículo en particular.
+
+No me servía tal y como tenía el hook y realizar modificaciones con el poco tiempo que me quedaba era arriesgado. Así que básicamente lo copié y realicé los ajustes sobre el nuevo hook `useFetchProduct`.
+
+El problema no es la repeción del código en si mismo (que también) si no la falta de abstracción de los requisitos antes de ponerme a implementar funcionalidades. Si hubiese dedicado 5 minutos a pensar con un esquema cómo resolver técnicamente cada uno de los requisitos esto no me habría pasado.
+
+Espero que te haya ayudado. Ten en cuenta que mi nivel sigue siendo junior así que agradecería que cualquier sugerencia, corrección o recomendación no dudes en decírmelo.
