@@ -1,16 +1,20 @@
 ---
-title: "Web Core Vitals al 100: mi portfolio de Angular a Nextjs"
-subtitle: "Motivos por los que migré mi portfolio de Angular a Next.js13 para potenciar el SEO y mejorar la Experiencia Visual"
+image: /posts/next-seo-movil.png
+title: "99% en Core Vitals: mi portfolio de Angular a Next.js 13"
+subtitle: "Motivos por los que migré mi portfolio de Angular a Next.js 13 para potenciar el SEO y mejorar la Experiencia Visual"
 date: "03-09-2023"
 ---
 
+![next-seo-movil](/posts/next-seo-movil.png)
+
 <Note>
   Aviso a haters: me encanta Angular. De hecho el 90% de la jornada laboral lo
-  uso para desarrollar aplicaciones empresariales. La finalidad del post es
-  recalcar las recomendaciones para cada herramienta y en qué casos usarlas.
+  uso para desarrollar aplicaciones con este framework. La finalidad del post es
+  recalcar las recomendaciones para cada herramienta y cómo en mi caso personal
+  Next.js 13 me ha ayudado a mejorar el rendimiento en mi porfolio.
 </Note>
 
-Creé mi porfolio web durante las vacaciones de navidad del 2022. No hace mucho desde que escribo este post.
+Creé mi porfolio web durante las vacaciones de Navidad del 2022. No hace mucho desde que escribo este post.
 Sin embargo, con la salida de Next13 y las recomendaciones de varios expertos en cuanto a su mejoras en Server Side Rendering y la implicación en el SEO decidí darle una vuelta un posible cambio.
 
 Y me gustó mucho el cambio.
@@ -29,4 +33,57 @@ Angular y Bootstrap (concretamente la versión 5) eran los frameworks con los qu
 
 Y me daba mucha pereza.
 
-El aspecto visual era muy mejorable, pero era operativo: mostraba quién era, los proyectos que había hecho, tenía incrustado un dashboard de Looker (antiguo Google Data Studio).
+El aspecto visual era muy mejorable, pero era operativo: mostraba quién era, los proyectos que había hecho, tenía incrustado un dashboard de Looker (antiguo Google Data Studio)...
+
+En fin, había cosas.
+
+![antigua-pagina-web](/posts/angular-portfolio.png)
+
+El problema surgió cuando revisé las métricas con PageSpeed tanto en móvil como ordenador.
+
+![metricas-seo-movil](/posts/angular-seo-movil.png)
+
+![metricas-seo-ordenador](/posts/angular-seo.png)
+
+## Nuevo porfolio con Next.js 13: métricas y estilos.
+
+En otro apartado abordaré las cuestiones técnicas de configuración del nuevo proyecto de Next.js 13.
+En cuanto a las nuevas métricas la diferencia fue abismal, sobre todo el móvil:
+
+![metricas seo nextjs13](/posts/next-seo.png)
+
+![metricas sea nextjs13 movil](/posts/next-seo-movil.png)
+
+Entrar en cambio de estilos puede ser polémico: al usar TailwindCSS pude haber realizado la misma estructura visual con mi anterior portfolio en vez de usar Bootstrap, aunque es cierto que la integración de Angular con Tailwind y las librerías con componentes ya predesarrollados no son tan comunes como con React.
+
+El punto es que usando Tailwind facilité bastante la unificación de estilos y la reducción del tamañado de los ficheros CSS.
+
+![nuevo porfolio nextjs 13](/posts/next-porfolio.png)
+
+Las imágenes que renderizaba originalmente eran obtenidas desde el servidor, por lo que no había una forma directa nativa que permitiese optimizarlas durante el renderizado.
+
+En el caso de Nextjs 13 existe la opción de cargar en diferido la imagen con mayor tamaño
+
+La eliminación de carga de archivos CSS que no se usen también ayudó considerablemente. Archivos como ../bootstrap.min.css o font/bootrap-icons.css quitaban casi 42.KiB de transferencia.
+
+## Dejar de usar Angular es como dejar de usar maquinaria pesada en una obra.
+
+Con todo lo anteriormente mencionado me sigue encantando Angular.
+
+Pero Nextjs 13 me ha gustado más que antes.
+
+La principal diferencia radica (en mi opinión) en la finalidad con la que se usen las herramientas: ¿vas a usar un martillo para derribar una casa o una apisonadora para clavar un clavo?.
+
+Next.js 13 es una herramienta fantástica para desarrollar páginas web con un enfoque SEO, atractivo visual, engagement en cuanto a usabilidad y navegación. También para el desarrollo de MVP me parece que es un buen framework: la libertad de componetización y estructura con la que gozas desde un principio facilita el desarrollo ágil de cualquier idea de negocio.
+
+Angular me encanta para construir mostruos por su robustez (¿ pero qué significa esto?).
+
+Pues bien:
+
+Su CLI es super útil una vez que se maneja con rapidez: puedes agregar los elementos en la sección correspondiente siguiendo el patrón de arquitectura que hayas definido según las reglas de negocio: los servicios aquí, los modelos acá, un interceptor aquí, un guard allá...
+
+Incluye por defecto la mayoría de librerías y dependencias necesarias para construir un proyecto escalable y con muchísimas funcionalidades: routing (Angular Router), formularios (Angular forms), manejo de peticiones HTTP (HttpClient), estilos (Angular Material) etc.
+
+La integración de directivas para manejar directamente HTML hace que sea fácil visualizar qué uso haces de tu código.
+
+En fin, que cada cosa tiene su lugar, ¡en mi caso seguiré usando ambas herramientas!
