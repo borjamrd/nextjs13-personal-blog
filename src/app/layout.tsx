@@ -55,7 +55,7 @@ export default function RootLayout({
             )}
           >
             <Header />
-            <div className="dpNFuT lg:max-h-full flex items-center justify-center w-full">
+            <div className="dpNFuT min-h-screen flex items-center justify-center w-full">
               <div className="container max-w-5xl p-5 lg:px-10">{children}</div>
             </div>
             <Footer />
