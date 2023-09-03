@@ -41,6 +41,10 @@ export default function RootLayout({
           sizes="16x16"
           href="/images/favicon-16x16.png"
         />
+        <meta
+          name="google-site-verification"
+          content="issl8zKpEt-ec_pZukX8VRBZeJyn-vPtqmePOBzqiCY"
+        />
       </head>
       <body>
         <Providers>
