@@ -20,7 +20,7 @@ Te resumo a continuación que puntos siempre procuro tener en cuenta:
 
 ## **Unidad lógica:**
 
-Cada commit debe representar una unidad lógica de trabajo completa. Esto significa que el commit debe contener todos los cambios necesarios para implementar una nueva característica, resolver un problema o realizar una tarea específica.
+Cada commit debe representar una unidad lógica de trabajo completa. Esto significa que el commit debe contener todos los cambios necesarios para implementar una nueva característica, resolver un problema o realizar una tarea concreta.
 
 ```js
 
@@ -36,46 +36,42 @@ git commit -m "feat: env variables added, dependencies updated and service for f
 
 Realiza commits pequeños y atómicos, enfocados en una única tarea o cambio y con un estado funcional y coherente. Esto facilita la revisión y comprensión de los cambios en el historial. Evita realizar commits que dejen el código en un estado inestable o incompilable.
 
-```js
+```bash
 
-//no recomendable, acción muy genérica que seguramente haya implicado muchos cambios en el código
+#no recomendable, acción muy genérica que seguramente haya implicado muchos cambios en el código
 git commit -m "feat: product catalog"
 
-//recomendable: fracciona las acciones y ve haciendo commits conformes estén finalizadas
+#recomendable: fracciona las acciones y ve haciendo commits conforme estén finalizadas
 git commit -m "feat: add product catalog table header added"
 git commit -m "feat: add product catalog table body added"
 git commit -m "feat: add orderby in product catalog table implemented"
 
 ```
 
-Te recomiendo que le eches un vistazo a este artículo sobre <a target="_blank" href="https://www.aleksandrhovhannisyan.com/blog/atomic-git-commits/"> Atomic Commits</a>
+Te recomiendo que le eches un vistazo a este artículo sobre [Atomic Commits](https://external.ink?to=https://www.aleksandrhovhannisyan.com/blog/atomic-git-commits/)
 
 ## **Coherencia temática:**
 
 Agrupa cambios relacionados en un mismo commit. Por ejemplo, si estás trabajando en una función y realizas cambios en múltiples archivos para implementarla, estos cambios deben agruparse en un solo commit.
 
-```js
-
-//archivos modificados:
-//product.js
-//useFecthProducts.js
-//CartProvider.js
-
-//commit:
+```bash
+#archivos modificados:
+#product.js
+#useFecthProducts.js
+#CartProvider.js
 git commit -m "feat: add POST in order to get product by id"
-
 ```
 
 ## **Mensajes Claros:**
 
 Proporciona un mensaje de commit significativo que describa de manera clara y concisa el propósito del commit. Esto ayuda a otros miembros del equipo a comprender rápidamente el cambio introducido.
 
-```js
+```bash
 
-//no recomendable
+#no recomendable
 git commit -m "syles: create variables"
 
-//recomendable:
+#recomendable:
 git commit -m "feat: create sass variables with global styles"
 
 ```
@@ -93,30 +89,18 @@ Puedes usar prefijos en tus mensajes de commit para indicar el tipo de cambio qu
 - **`chore`**: Tareas de mantenimiento, mejoras, etc.
 
 ```bash
-git commit -m "feat: tags functinallity added in tasks"
-```
+git commit -m "feat: tags functionality added in tasks"
 
-```bash
 git commit -m "fix: rxjs's finalize() fixed in table after load data"
-```
 
-```bash
 git commit -m "refactor: unnecesary modules purged in app.module"
-```
 
-```bash
-git commit -m "style: main stayles in secondary and primary buttons changed"
-```
+git commit -m "style: main styles in secondary and primary buttons changed"
 
-```bash
 git commit -m "docs: README.md with intructions about app commands added"
-```
 
-```bash
 git commit -m "test: unit testing for user fetching service implemented"
-```
 
-```bash
 git commit -m "chore: change from SQlite to MySQL as main database
 ```
 
@@ -136,19 +120,17 @@ No realices commits por cada pequeño cambio incremental mientras trabajas en un
 
 Si cometes un error en un commit reciente y aún no lo has enviado, puedes usar **`git commit --amend`** para corregirlo.
 
-<a href="https://smartlogic.io/blog/git-commit-amend/" target="_blank">
-  Aquí tienes un enlace con más información
-</a> acerca de cómo puedes usarlo en tu día a día.
+[Aquí tienes un enlace con más información](https://external.ink?to=https://smartlogic.io/blog/git-commit-amend/) acerca de cómo puedes usarlo en tu día a día.
 
 ## **Referencia los commits siempre que sea posible**
 
 Si el trabajo sobre el cual estás escribiendo un commit resuelve, modifica o guarda relación con un commit previamente escrito, referéncialo. Esto te permitirá en un futuro analizar el historial de acciones sobre un determinado bug o implementación en tu código.
 
-```js
-//correcto pero mejorable
+```bash
+#correcto pero mejorable
 git commit -m "fix: mongodb database connection fixed"
 
-//correcto: haciendo click sobre la referencia podrás ver el contenido relacionado con el bug a resolver.
+#correcto: haciendo click sobre la referencia podrás ver el contenido relacionado con el bug a resolver.
 git commit -m "fix: mongodb database connection fixed (#1234)"
 
 ```
