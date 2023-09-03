@@ -38,11 +38,13 @@ Realiza commits pequeños y atómicos, enfocados en una única tarea o cambio y 
 
 ```js
 
-//no recomendable
-git commit -m "feat: "
+//no recomendable, acción muy genérica que seguramente haya implicado muchos cambios en el código
+git commit -m "feat: product catalog"
 
-//recomendable
-git commit -m "feat: env variables added, dependencies updated and service for fetching main data implemented"
+//recomendable: fracciona las acciones y ve haciendo commits conformes estén finalizadas
+git commit -m "feat: add product catalog table header added"
+git commit -m "feat: add product catalog table body added"
+git commit -m "feat: add orderby in product catalog table implemented"
 
 ```
 
@@ -52,9 +54,31 @@ Te recomiendo que le eches un vistazo a este artículo sobre <a target="_blank" 
 
 Agrupa cambios relacionados en un mismo commit. Por ejemplo, si estás trabajando en una función y realizas cambios en múltiples archivos para implementarla, estos cambios deben agruparse en un solo commit.
 
+```js
+
+//archivos modificados:
+//product.js
+//useFecthProducts.js
+//CartProvider.js
+
+//commit:
+git commit -m "feat: add POST in order to get product by id"
+
+```
+
 ## **Mensajes Claros:**
 
 Proporciona un mensaje de commit significativo que describa de manera clara y concisa el propósito del commit. Esto ayuda a otros miembros del equipo a comprender rápidamente el cambio introducido.
+
+```js
+
+//no recomendable
+git commit -m "syles: create variables"
+
+//recomendable:
+git commit -m "feat: create sass variables with global styles"
+
+```
 
 ## **Prefijo de Mensajes:**
 
@@ -100,10 +124,6 @@ git commit -m "chore: change from SQlite to MySQL as main database
 
 Escribe los mensajes de commit en tiempo presente imperativo. Por ejemplo, "Agregada función de búsqueda" en lugar de "Agregó función de búsqueda".
 
-## **Usa Línea en Blanco:**
-
-Separa el título del mensaje del cuerpo con una línea en blanco. El cuerpo proporciona más detalles sobre el cambio.
-
 ## **Referencia a Problemas:**
 
 Si tu proyecto utiliza algún sistema de seguimiento de problemas (como GitHub Issues), puedes referenciarlos en los mensajes de commit. Por ejemplo: "Corrige error de validación (#123)".
@@ -116,16 +136,20 @@ No realices commits por cada pequeño cambio incremental mientras trabajas en un
 
 Si cometes un error en un commit reciente y aún no lo has enviado, puedes usar **`git commit --amend`** para corregirlo.
 
+<a href="https://smartlogic.io/blog/git-commit-amend/" target="_blank">
+  Aquí tienes un enlace con más información
+</a> acerca de cómo puedes usarlo en tu día a día.
+
 ## **Referencia los commits siempre que sea posible**
 
 Si el trabajo sobre el cual estás escribiendo un commit resuelve, modifica o guarda relación con un commit previamente escrito, referéncialo. Esto te permitirá en un futuro analizar el historial de acciones sobre un determinado bug o implementación en tu código.
 
 ```js
 //correcto pero mejorable
-git commit -m "refactor: unnecesary modules purged in app.module"
+git commit -m "fix: mongodb database connection fixed"
 
-//correcto
-git commit -m "refactor: unnecesary modules purged in app.module"
+//correcto: haciendo click sobre la referencia podrás ver el contenido relacionado con el bug a resolver.
+git commit -m "fix: mongodb database connection fixed (#1234)"
 
 ```
 
