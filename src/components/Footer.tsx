@@ -7,7 +7,7 @@ interface FooterProps {}
 const Footer: FC<FooterProps> = ({}) => {
   return (
     <footer>
-      <div className="h-10 p-3  flex justify-center backdrop-blur-sm border-neutral-300 border-t border-b dark:border-neutral-600">
+      <div className="h-11 p-3  flex justify-center backdrop-blur-sm border-neutral-300 border-t  dark:border-neutral-600 bg-opacity-25 shadow-sm">
         <div className="flex justify-between gap-10 items-center text-sm">
           <p>@ 2023 Borja Muñoz Ruiz-Dana</p>
           <div className="flex items-center space-x-1">

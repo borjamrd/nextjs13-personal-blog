@@ -28,8 +28,8 @@ const PostPreview: FC<PostPreviewProps> = ({ post, index }) => {
           {post.title}
         </h2>
         <p>
-          {post.subtitle?.length > 80
-            ? post.subtitle?.substring(0, 80) + "..."
+          {post.subtitle?.length > 140
+            ? post.subtitle?.substring(0, 140) + "..."
             : post.subtitle}
         </p>
         <div className="text-xs mt-2 flex items-center justify-between">

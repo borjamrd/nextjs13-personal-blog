@@ -1,0 +1,132 @@
+---
+image: /posts/github.webp
+title: "10 tips que apliqué en mis commits y me han ayudado muchísimo (con ejemplos)."
+subtitle: "Desde que sigo estas pautas he hecho que mis contribuciones y código sean mucho más comprensibles, para mí y para los demás."
+date: "12-08-2023"
+---
+
+![Alt text](/posts/github.webp "github")
+
+### Table of Contents
+
+Desde que comencé a programar he usado control de versiones, y si bien es cierto que al principio no le daba importancia al tamaño, calidad y legibilidad de mis commits con el tiempo no tuve más que informarme cuáles son las prácticas recomendadas.
+
+Existen dos motivos por los que profesionalizar tus commits:
+
+- Pensar en los demás: si no te adaptas a un estándar no podrás trabajar en equipo. Seguir los patrones y directices ayudará a que tus cambios y código sean más entendibles por tus compañeros de proyecto.
+- Pensar en uno mismo: más de una vez he acudido a código de una branch diferente para ver el estado del proyecto durante una etapa determinada. Y lo he pasado realmente mal intentando descifrar los cambios que hice.
+
+Te resumo a continuación que puntos siempre procuro tener en cuenta:
+
+## **Unidad lógica:**
+
+Cada commit debe representar una unidad lógica de trabajo completa. Esto significa que el commit debe contener todos los cambios necesarios para implementar una nueva característica, resolver un problema o realizar una tarea específica.
+
+```js
+
+//no recomendable
+git commit -m "feat: env added and fetch implemented"
+
+//recomendable
+git commit -m "feat: env variables added, dependencies updated and service for fetching main data implemented"
+
+```
+
+## **Commits Atómicos:**
+
+Realiza commits pequeños y atómicos, enfocados en una única tarea o cambio y con un estado funcional y coherente. Esto facilita la revisión y comprensión de los cambios en el historial. Evita realizar commits que dejen el código en un estado inestable o incompilable.
+
+```js
+
+//no recomendable
+git commit -m "feat: "
+
+//recomendable
+git commit -m "feat: env variables added, dependencies updated and service for fetching main data implemented"
+
+```
+
+Te recomiendo que le eches un vistazo a este artículo sobre <a target="_blank" href="https://www.aleksandrhovhannisyan.com/blog/atomic-git-commits/"> Atomic Commits</a>
+
+## **Coherencia temática:**
+
+Agrupa cambios relacionados en un mismo commit. Por ejemplo, si estás trabajando en una función y realizas cambios en múltiples archivos para implementarla, estos cambios deben agruparse en un solo commit.
+
+## **Mensajes Claros:**
+
+Proporciona un mensaje de commit significativo que describa de manera clara y concisa el propósito del commit. Esto ayuda a otros miembros del equipo a comprender rápidamente el cambio introducido.
+
+## **Prefijo de Mensajes:**
+
+Puedes usar prefijos en tus mensajes de commit para indicar el tipo de cambio que realizaste. Por ejemplo:
+
+- **`feat`**: Nueva característica
+- **`fix`**: Corrección de error
+- **`docs`**: Cambios en la documentación
+- **`style`**: Cambios de estilo (formato, espacios en blanco, etc.)
+- **`refactor`**: Cambios de refactorización de código
+- **`test`**: Cambios en pruebas
+- **`chore`**: Tareas de mantenimiento, mejoras, etc.
+
+```bash
+git commit -m "feat: tags functinallity added in tasks"
+```
+
+```bash
+git commit -m "fix: rxjs's finalize() fixed in table after load data"
+```
+
+```bash
+git commit -m "refactor: unnecesary modules purged in app.module"
+```
+
+```bash
+git commit -m "style: main stayles in secondary and primary buttons changed"
+```
+
+```bash
+git commit -m "docs: README.md with intructions about app commands added"
+```
+
+```bash
+git commit -m "test: unit testing for user fetching service implemented"
+```
+
+```bash
+git commit -m "chore: change from SQlite to MySQL as main database
+```
+
+## **Mensaje en Presente:**
+
+Escribe los mensajes de commit en tiempo presente imperativo. Por ejemplo, "Agregada función de búsqueda" en lugar de "Agregó función de búsqueda".
+
+## **Usa Línea en Blanco:**
+
+Separa el título del mensaje del cuerpo con una línea en blanco. El cuerpo proporciona más detalles sobre el cambio.
+
+## **Referencia a Problemas:**
+
+Si tu proyecto utiliza algún sistema de seguimiento de problemas (como GitHub Issues), puedes referenciarlos en los mensajes de commit. Por ejemplo: "Corrige error de validación (#123)".
+
+## **Evita commits innecesarios:**
+
+No realices commits por cada pequeño cambio incremental mientras trabajas en una tarea. En su lugar, espera a tener un conjunto coherente de cambios antes de hacer un commit.
+
+## **Amend Commits:**
+
+Si cometes un error en un commit reciente y aún no lo has enviado, puedes usar **`git commit --amend`** para corregirlo.
+
+## **Referencia los commits siempre que sea posible**
+
+Si el trabajo sobre el cual estás escribiendo un commit resuelve, modifica o guarda relación con un commit previamente escrito, referéncialo. Esto te permitirá en un futuro analizar el historial de acciones sobre un determinado bug o implementación en tu código.
+
+```js
+//correcto pero mejorable
+git commit -m "refactor: unnecesary modules purged in app.module"
+
+//correcto
+git commit -m "refactor: unnecesary modules purged in app.module"
+
+```
+
+Recuerda que unos buenos hábitos de commit no solo facilitan la colaboración con otros, sino que también te ayudan a mantenerte organizado y a entender mejor el historial de tu proyecto.

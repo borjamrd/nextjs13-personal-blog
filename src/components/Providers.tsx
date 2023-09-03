@@ -6,7 +6,7 @@ import { ReactNode } from "react";
 const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
         {children}
       </ThemeProvider>
     </>
