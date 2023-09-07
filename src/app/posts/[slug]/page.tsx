@@ -48,7 +48,7 @@ const PostPage = (props: any) => {
           <p>{post.timeToRead}</p>
         </div>
       </div>
-      <article className="prose-sm prose-pre:bg-slate-800 dark:prose-pre:bg-opacity-25 prose-img:max-w-xs prose-pre:max-w-xs lg:prose-pre:max-w-xl xl:prose-pre:max-w-2xl prose-pre:backdrop-blur-lg lg:prose-lg dark:prose-h1:text-slate-100 prose-pre:text-white dark:prose-h2:text-white dark:prose-h3:text-white prose-pre:overflow-auto dark:prose-invert max-w-none prose-a:decoration-purple-600 prose-a:underline-offset-2 prose-headings:scroll-my-20 prose-img:rounded-lg ">
+      <article className="prose-sm prose-pre:bg-slate-800 dark:prose-pre:bg-opacity-25 prose-img:max-w prose-pre:max-w-xs lg:prose-pre:max-w-xl xl:prose-pre:max-w-2xl prose-pre:backdrop-blur-lg lg:prose-lg dark:prose-h1:text-slate-100 prose-pre:text-white dark:prose-h2:text-white dark:prose-h3:text-white prose-pre:overflow-auto dark:prose-invert max-w-none prose-a:decoration-purple-600 prose-a:underline-offset-2 prose-headings:scroll-my-20 prose-img:rounded-lg mb-20 ">
         <PostLayout>{post.matterResult.content}</PostLayout>
       </article>
     </div>

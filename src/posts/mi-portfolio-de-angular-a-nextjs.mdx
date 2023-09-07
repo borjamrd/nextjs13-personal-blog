@@ -1,0 +1,111 @@
+---
+image: /posts/next-seo-movil.png
+title: "99% en Core Vitals: mi portfolio de Angular a Next.js 13"
+subtitle: "Motivos por los que migré mi portfolio de Angular a Next.js 13 para potenciar el SEO y mejorar la experiencia visual"
+date: "03-09-2023"
+---
+
+![next-seo-movil](/posts/next-seo-movil.png)
+
+<Note>
+  Aviso a haters: me encanta Angular. De hecho durante el 90% de la jornada
+  laboral desarrollo aplicaciones con este framework. La finalidad del post es
+  recalcar las recomendaciones para cada herramienta y cómo en mi caso personal
+  Next.js 13 me ha ayudado a mejorar el rendimiento en mi porfolio.
+</Note>
+
+Creé mi porfolio web durante las vacaciones de Navidad del 2022. No hace mucho desde que escribo este post.
+Sin embargo, con la salida de Next.js 13 y las recomendaciones de varios expertos en cuanto a su mejoras en Server Side Rendering y la implicación en el SEO decidí darle una vuelta un posible cambio.
+
+Y me gustó mucho.
+
+En este post te mostraré:
+
+- Cómo mejoré las métricas de rendimiento, accesibilidad y SEO al cambiar a Next.js 13.
+- Intalación básica de las dependencias que usé para comenzar un proyecto.
+- Qué ventajas me ofrecía cada framework.
+
+### Table of Contents
+
+## Mi portolio con Angular: cómo lo tenía configurado.
+
+Angular y Bootstrap (concretamente la versión 5) eran los frameworks con los que más trabajaba en mi día a día el año pasado.
+
+Este fue básicamente el principal motivo por el que decidí usar estas herramientas para desarrollar mi portfolio. Podía haber usado React, Svelte, Vue... pero esto implicaba (a pesar de tener experiencia con React) hacer un switch constante entre mi trabajo y el desarrollo por mi cuenta.
+
+Y me daba mucha pereza.
+
+El aspecto visual era muy mejorable, pero era operativo: mostraba quién era, los proyectos que había hecho, tenía incrustado un dashboard de Looker (antiguo Google Data Studio)...
+
+En fin, había cosas.
+
+![antigua-pagina-web](/posts/angular-portfolio.png)
+
+El problema surgió cuando revisé las métricas con PageSpeed tanto en móvil como ordenador.
+
+![metricas-seo-movil](/posts/angular-seo-movil.png)
+
+![metricas-seo-ordenador](/posts/angular-seo.png)
+
+## Nuevo porfolio con Next.js 13: métricas y estilos.
+
+En otro apartado abordaré las cuestiones técnicas de configuración del nuevo proyecto de Next.js 13.
+En cuanto a las nuevas métricas la diferencia fue abismal, sobre todo el móvil:
+
+![metricas seo nextjs13](/posts/next-seo.png)
+
+![metricas sea nextjs13 movil](/posts/next-seo-movil.png)
+
+Entrar en cambio de estilos puede ser polémico: al usar TailwindCSS pude haber realizado la misma estructura visual con mi anterior portfolio en vez de usar Bootstrap, aunque es cierto que la integración de Angular con Tailwind y las librerías con componentes ya predesarrollados no son tan comunes como con React.
+
+El punto es que usando Tailwind facilité bastante la unificación de estilos y la reducción del tamaño de los ficheros CSS.
+
+## La magia de SSG y SSR
+
+Next.js 13 ofrece soporte nativo para el caché de páginas estáticas (SSG). Esto significa que las páginas se renderizan una vez y luego se almacenan en caché para su reutilización. Esto puede mejorar aún más el SEO de las aplicaciones al reducir el número de solicitudes HTTP que deben realizar los motores de búsqueda.
+
+El caché de páginas estáticas también puede mejorar la velocidad de las aplicaciones. Esto significa que los clientes no tienen que esperar a que las páginas se rendericen cada vez que las visitan.
+
+Tanto Angular como Next.js 13 ofrecen soporte nativo para el renderizado del lado del servidor (Server Side Rendering), lo que significa que el contenido de la página se renderiza en el servidor antes de ser enviado al cliente.
+
+El renderizado del lado del servidor también puede mejorar la velocidad de las aplicaciones Next.js. Esto se debe a que el contenido de la página se renderiza en el servidor antes de ser enviado al cliente. Esto significa que el cliente no tiene que renderizar la página por sí mismo, lo que puede reducir el tiempo de carga de la página.
+
+Esto mejora el SEO de las aplicaciones porque los motores de búsqueda pueden indexar el contenido de la página de forma más rápida y precisa.
+
+Cabe destacar que por ahora personalmente funciona mejor Next.js 13 que Angular Universal en cuanto a SSR.
+
+Además de estas ventajas técnicas, Next.js también ofrece una serie de características que pueden ayudar a mejorar el SEO y la velocidad de las aplicaciones. Estas características incluyen:
+
+- SEO automático: Next.js incluye una serie de características de SEO automático, como la optimización de metaetiquetas, la generación de sitemaps y la creación de enlaces permanentes.
+
+- Manejo de imágenes: Next.js ofrece un conjunto de herramientas para ayudar a optimizar las imágenes para el SEO, como el soporte para el formato WebP y la compresión de imágenes.
+
+- Carga diferida de activos: Next.js permite cargar los activos de una aplicación de forma diferida, lo que puede ayudar a mejorar la velocidad de carga de la página.
+
+![nuevo porfolio nextjs 13](/posts/next-porfolio.png)
+
+Las imágenes que renderizaba originalmente eran obtenidas desde el servidor, por lo que no había una forma directa nativa que permitiese optimizarlas durante el renderizado.
+
+## Dejar de usar Angular es como dejar de usar maquinaria pesada en una obra.
+
+Con todo lo anteriormente mencionado me sigue encantando Angular.
+
+Pero Nextjs 13 me ha gustado más que antes.
+
+La principal diferencia radica (en mi opinión) en la finalidad con la que se usen las herramientas: ¿vas a usar un martillo para derribar una casa o una apisonadora para clavar un clavo?.
+
+Next.js 13 es una herramienta fantástica para desarrollar páginas web con un enfoque SEO, atractivo visual, engagement en cuanto a usabilidad y navegación. También para el desarrollo de MVP me parece que es un buen framework: la libertad de componetización y estructura con la que gozas desde un principio facilita el desarrollo ágil de cualquier idea de negocio.
+
+Angular me encanta para construir mostruos por su robustez (¿ pero qué significa esto?).
+
+Pues bien:
+
+Su CLI es super útil una vez que se maneja con rapidez: puedes agregar los elementos en la sección correspondiente siguiendo el patrón de arquitectura que hayas definido según las reglas de negocio: los servicios aquí, los modelos acá, un interceptor aquí, un guard allá...
+
+Incluye por defecto la mayoría de librerías y dependencias necesarias para construir un proyecto escalable y con muchísimas funcionalidades: routing (Angular Router), formularios (Angular forms), manejo de peticiones HTTP (HttpClient), estilos (Angular Material) etc.
+
+La integración de directivas para manejar directamente HTML hace que sea fácil visualizar qué uso haces de tu código.
+
+En fin, que cada cosa tiene su lugar, ¡en mi caso seguiré usando ambas herramientas!
+
+<Note>Post aún sin terminar.</Note>
