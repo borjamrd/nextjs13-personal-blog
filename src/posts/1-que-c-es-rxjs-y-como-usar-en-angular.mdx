@@ -1,0 +1,337 @@
+---
+image: /posts/rxjs.png
+title: "¿Qué c* es rxjs y cómo usarlo en Angular?"
+subtitle: "La programación reactiva es un paradigma de programación que se centra en el flujo de datos y la propagación de cambios."
+date: "25-10-2023"
+---
+
+![github](/posts/rxjs.png "rxjs")
+
+### Table of Contents
+
+## ¿Qué es rxjs?
+
+Angular como framework contiene muchísimas funcionalidades y librerías reactivas. Y una de ellas, si no la más importante o la que más se usa, es Rxjs.
+
+RxJS es una librería de JavaScript que se utiliza para programación reactiva. La programación reactiva es un paradigma de programación que se centra en el flujo de datos y la propagación de cambios. RxJS se basa en el patrón Observador (Observer) y proporciona una forma eficiente y eficaz de trabajar con flujos de datos asíncronos, como eventos, solicitudes HTTP, y otros tipos de datos que cambian con el tiempo.
+
+**RxJS se basa en el concepto de "observables".**
+
+Los observables son secuencias de eventos o datos que pueden ser observados y reaccionados a medida que se emiten. Los observables pueden ser operados y transformados de diversas maneras para realizar tareas como filtrar datos, mapearlos, combinarlos, o manejar errores de manera elegante.
+
+La biblioteca Rxjs es especialmente útil en aplicaciones web y móviles donde la interacción del usuario, las notificaciones de eventos, y las llamadas a servicios web son comunes. Al adoptar Rxjs, los desarrolladores pueden escribir código más limpio y mantenible para manejar de manera eficiente flujos de datos asíncronos y reactivos.
+
+Vamos, de forma resumida, RxJS es una biblioteca de JavaScript que facilita la programación reactiva al **proporcionar una amplia gama de herramientas y operadores para trabajar con flujos de datos asíncronos de una manera más eficiente y manejable.**
+
+## Ejemplo de uso teórico con `map()` , `filter()` y `take()`
+
+En el ejemplo que muestro a continuación importamos `from`, `of`,`interval`de `rxj`, que nos permitirán convertir datos en observables. También importamos `map`, `filter` y `take` de la carpeta de operadores de rxjs, de forma que podamos mapear o filtrar los observables que hayamos creado.
+
+```jsx
+// Importa la biblioteca RxJS
+const { from, of, interval } = require("rxjs");
+const { map, filter, take } = require("rxjs/operators");
+
+// Crear un observable a partir de una matriz
+const numeros = from([1, 2, 3, 4, 5]);
+
+// Aplicar una operación de mapeo para duplicar cada número
+const numerosDuplicados = numeros.pipe(map((numero) => numero * 2));
+
+// Filtrar números mayores que 5
+const numerosFiltrados = numerosDuplicados.pipe(filter((numero) => numero > 5));
+
+// Tomar solo los primeros 3 números
+const primerosTresNumeros = numerosFiltrados.pipe(take(3));
+
+// Suscribirse al observable resultante y observar los valores emitidos
+primerosTresNumeros.subscribe(
+  (numero) => console.log(numero),
+  (error) => console.error("Error:", error),
+  () => console.log("Terminado")
+);
+```
+
+## Ejemplo de uso práctico con `mergeMap()` y `catchError()`
+
+Puedes utilizar **`mergeMap`** para manejar solicitudes HTTP anidadas, como cuando necesitas cargar datos dependiendo de los resultados de otra solicitud. Por ejemplo, supongamos que tienes una solicitud inicial para obtener un usuario y luego deseas obtener las tareas de ese usuario:
+
+```tsx
+import { Component } from "@angular/core";
+import { UserService } from "./user.service";
+
+@Component({
+  selector: "app-user-tasks",
+  template: `
+    <ul>
+      <li *ngFor="let task of userTasks$ | async">{{ task.name }}</li>
+    </ul>
+  `,
+})
+export class UserTasksComponent {
+  userTasks$ = this.userService
+    .getUser(1)
+    .pipe(mergeMap((user) => this.taskService.getTasks(user.id)));
+
+  constructor(
+    private userService: UserService,
+    private taskService: TaskService
+  ) {}
+}
+```
+
+De igual forma, puedes utilizar el operador **`catchError`** para manejar errores de observables, como errores en solicitudes HTTP. Por ejemplo, si deseas mostrar un mensaje de error cuando una solicitud falla:
+
+```tsx
+import { Component } from "@angular/core";
+import { UserService } from "./user.service";
+
+@Component({
+  selector: "app-user-details",
+  template: `
+    <div *ngIf="user$; else errorTemplate">
+      <p>Nombre: {{ user$.name }}</p>
+    </div>
+    <ng-template #errorTemplate>
+      <p>Hubo un error al cargar el usuario.</p>
+    </ng-template>
+  `,
+})
+export class UserDetailsComponent {
+  user$ = this.userService.getUser(1).pipe(
+    catchError((error) => {
+      console.error("Error:", error);
+      return throwError("Error al cargar el usuario");
+    })
+  );
+
+  constructor(private userService: UserService) {}
+}
+```
+
+## Método 1 para suscripciones asíncronas: `async` pipe
+
+El operador **`async`** en Angular es una característica que se utiliza para simplificar la gestión de observables en las plantillas de tus componentes. Básicamente, permite que Angular se encargue de suscribirse y desuscribirse automáticamente de los observables, lo que reduce la necesidad de gestionar manualmente la suscripción y desuscripción en tus componentes. El uso principal del operador **`async`** es en las plantillas, especialmente en el contexto de Angular.
+
+Principales ventajas:
+
+1. **Uso en plantillas:** En lugar de suscribirte manualmente en el componente y asignar los datos a propiedades del componente, puedes usar **`async`** directamente en la plantilla para mostrar los datos.
+2. **Manejo automático de la suscripción y desuscripción**: Cuando utilizas **`async`** en una plantilla, Angular se encarga automáticamente de suscribirse al observable cuando se muestra la vista y de desuscribirse cuando se destruye la vista o se cambia el componente. Esto evita problemas de fuga de memoria y garantiza que la suscripción se gestione de manera segura y eficiente.
+3. **Actualización automática**: Cuando el observable emite nuevos valores, la vista se actualizará automáticamente para reflejar esos cambios, sin necesidad de escribir código adicional.
+
+```tsx
+import { Component } from "@angular/core";
+import { MyCarDataService } from "./mi-servicio"; // Importa tu servicio aquí
+
+@Component({
+  selector: "app-car-component",
+  template: `
+    <div>
+      <h2>Matrícula del coche:</h2>
+      <p>{{ carData$ | async }}</p>
+    </div>
+  `,
+})
+export class MyCarComponent {
+  // Supongamos que el servicio retorna un observable con la matrícula del coche
+
+  carData$ = this._myCarData.obtainCarData();
+  constructor(private _myCarData: MyCarDataService) {}
+}
+```
+
+¡De esta forma pasamos directamente el observable al template y nos olvidamos de la desuscripción!
+
+## Método 2 para suscripciones asíncronas: suscripción manual.
+
+En general, el uso del operador **`async`** es muy recomendable, ya que automatiza la gestión de suscripciones y desuscripciones, lo que simplifica considerablemente el código y ayuda a evitar problemas como las fugas de memoria.
+
+Sin embargo, en algunos casos particulares, puede ser necesario realizar la suscripción manualmente, por ejemplo, **cuando necesitas un mayor control sobre la lógica de suscripción o cuando trabajas con observables más complejos**.
+
+A continuación, te proporcionaré un ejemplo en el que la suscripción debe ser manual porque la lógica de manejo de eventos específicos es más compleja de lo que el operador **`async`** puede manejar de manera directa.
+
+Supongamos que estás trabajando con un observable de eventos de ratón en Angular y deseas realizar una lógica personalizada para procesar estos eventos. Aquí hay un ejemplo en el que necesitas realizar la suscripción manualmente:
+
+```tsx
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+} from "@angular/core";
+import { fromEvent, Subscription } from "rxjs";
+
+@Component({
+  selector: "app-mi-componente",
+  template: `
+    <div
+      #miElemento
+      style="width: 100px; height: 100px; background-color: red;"
+    ></div>
+  `,
+})
+export class MiComponente implements AfterViewInit, OnDestroy {
+  private mouseMoveSubscription: Subscription;
+  private elemento: HTMLElement;
+
+  constructor(private el: ElementRef) {}
+
+  ngAfterViewInit() {
+    // Acceder al elemento DOM una vez que esté disponible
+    this.elemento = this.el.nativeElement;
+
+    // Crear un observable de eventos de ratón
+    const mouseMove$ = fromEvent(this.elemento, "mousemove");
+
+    // Realizar la suscripción manualmente
+    this.mouseMoveSubscription = mouseMove$.subscribe((event: MouseEvent) => {
+      // Realizar lógica personalizada con los eventos del ratón
+      const offsetX =
+        event.clientX - this.elemento.getBoundingClientRect().left;
+      const offsetY = event.clientY - this.elemento.getBoundingClientRect().top;
+      this.elemento.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    });
+  }
+
+  ngOnDestroy() {
+    // Desuscribirse para evitar fugas de memoria
+    this.mouseMoveSubscription.unsubscribe();
+  }
+}
+```
+
+En este ejemplo:
+
+1. Creamos un componente que tiene un elemento HTML que queremos seguir con el ratón.
+2. Usamos **`fromEvent`** para crear un observable de eventos de ratón en ese elemento.
+3. Realizamos la suscripción manualmente en el método `**ngAfterViewInit**`, lo que nos permite personalizar la lógica para mover el elemento div en respuesta a eventos de ratón.
+4. Nos desuscribimos en el método **`ngOnDestroy`** para evitar fugas de memoria.
+
+En este escenario, es necesario realizar la suscripción manualmente ya que estamos implementando una lógica personalizada para manejar los eventos de ratón. El operador **`async`** no es adecuado en este caso, ya que no nos proporciona suficiente control sobre el comportamiento del elemento.
+
+## Desuscripciones:
+
+Como comentaba anteriormente, una de las prácticas recomendadas a la hora de programar es desuscribirnos de todos aquellos observables. De esta forma conseguimos:
+
+1. **Liberación de recursos**: Cuando te suscribes a un observable, se establece una conexión para escuchar eventos o recibir datos. Si no te desuscribes cuando ya no necesitas los datos, la conexión seguirá activa, lo que podría consumir recursos innecesarios como memoria y poder de procesamiento.
+2. **Prevención de pérdida de memoria**: Las suscripciones no desechadas pueden llevar a una fuga de memoria en tu aplicación. Si no te desuscribes, los observables y los objetos relacionados pueden quedar en memoria incluso cuando ya no se utilizan. Esto puede hacer que tu aplicación se vuelva más lenta con el tiempo y, en casos extremos, agotar la memoria y hacer que la aplicación se bloquee.
+3. **Mantenimiento del estado consistente**: En aplicaciones donde se gestionan estados, como las aplicaciones Angular, una suscripción no desuscrita puede llevar a un estado inconsistente. Puedes recibir datos que cambian el estado de la aplicación, y si no se desuscribe adecuadamente, es posible que tu aplicación se comporte de manera inesperada.
+4. **Evitar comportamientos no deseados**: En situaciones donde una suscripción está vinculada a un componente o servicio específico, la falta de desuscripción puede causar comportamientos inesperados cuando se cambia de componente o se destruye un componente.
+5. **Reducción de errores potenciales**: Al desuscribirte adecuadamente, reduces la posibilidad de errores o comportamientos inesperados en tu aplicación. Las suscripciones no desechadas pueden causar efectos secundarios no deseados y dificultar la depuración.
+
+### Usando el propio ciclo de vida del componente (`async` pipe).
+
+Cuando hacemos uso del pipe `async` no necesitamos realizar ninguna desuscripción manual desde nuestro componente.
+
+```tsx
+ <p>{{ carData$ | async }}</p>
+```
+
+### Método `unsubscribe()`
+
+Cada suscripción a un observable en RxJS retorna un objeto Subscription. Puedes llamar al método **`unsubscribe()`** en este objeto para desuscribirte de la suscripción cuando se produzca el ciclo de vida `ngOnDestroy` del componente. Sin embargo, esto genera problemas de [boilerplate](https://en.wikipedia.org/wiki/Boilerplate_code)
+
+Por ejemplo:
+
+```tsx
+@Component(...)
+export class MyComponent implements OnDestroy {
+  private subscription: Subscription; // boilerplate
+  constructor(private apiService: MyApiService) {}
+  public ngOnInit(): void {
+    this.subscription = this.apiService // boilerplate
+      .callSomeServerApi()
+      .subscribe(() => window.location = 'https://another.site`)
+  }
+public ngOnDestroy(): void {
+    if (this.subscription) { // boilerplate
+      this.subscription.unsubscribe(); // boilerplate
+    } // boilerplate
+  }
+}
+```
+
+### Usando el operador `takeUntil()`
+
+Puedes usar el operador **`takeUntil()`** en combinación con otro observable que emita un valor para indicar cuándo deseas desuscribirte. Aquí tienes un ejemplo:
+
+```tsx
+import { fromEvent, interval } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+
+const clickObservable = fromEvent(document, "click");
+const intervalObservable = interval(1000);
+
+const unsubscribeSignal = fromEvent(document, "keydown"); // Cuando se presiona una tecla, se desuscribe
+
+clickObservable
+  .pipe(takeUntil(unsubscribeSignal))
+  .subscribe((event) => console.log("Click detectado:", event));
+```
+
+### Función `AutoUnsubscribe()`
+
+Esta es, en mi opinión, la forma más elegante de controlar las suscripciones de forma global en nuestra aplicación. Observa el código con detenimiento y después lee la explicación:
+
+```jsx
+export function AutoUnsubscribe(blacklist: string[] = []) {
+  return function (constructor: any) {
+    const original = constructor.prototype.ngOnDestroy;
+
+    constructor.prototype.ngOnDestroy = function () {
+      for (const prop of Object.keys(this)) {
+        const property = this[prop];
+        if (!blacklist.includes(prop)) {
+          if (property && typeof property.unsubscribe === 'function') {
+            property.unsubscribe();
+
+          }
+        }
+      }
+      original &&
+        typeof original === 'function' &&
+        original.apply(this, arguments);
+    };
+  };
+}
+```
+
+Esta función es un decorador en TypeScript que se utiliza para automatizar la desuscripción de observables en componentes; acepta un parámetro opcional **`blacklist`**, que es una matriz de nombres de propiedades que se deben excluir de la desuscripción automática.
+
+Cuando aplicas este decorador a una clase de componente de Angular, reemplaza el método **`ngOnDestroy`** del componente con una versión personalizada. Esta versión personalizada del método **`ngOnDestroy`** se encarga de recorrer todas las propiedades del componente y desuscribir cualquier observable presente en esas propiedades, a menos que el nombre de la propiedad esté en la lista negra especificada en el parámetro **`blacklist`**. Aquí está el flujo de lo que hace la función:
+
+1. Reemplaza el método **`ngOnDestroy`** del componente con una función personalizada.
+2. En la función personalizada, itera sobre todas las propiedades del componente utilizando un bucle **`for...of`**.
+3. Para cada propiedad, verifica si no está en la lista negra (**`blacklist`**) especificada.
+4. Si la propiedad no está en la lista negra, comprueba si es un objeto y si tiene un método **`unsubscribe`**. Si ambas condiciones se cumplen, llama al método **`unsubscribe`** en esa propiedad para desuscribirse.
+5. Luego, verifica si el método **`ngOnDestroy`** original existía y era una función antes de llamarlo. Esto es importante porque si el componente tenía un **`ngOnDestroy`** original, aún se ejecutará después de desuscribirse de los observables.
+6. Llama al método **`ngOnDestroy`** original si existe y era una función, pasándole los mismos argumentos que se le pasaron a la función personalizada.
+
+**`AutoUnsubscribe`** es útil para automatizar la desuscripción de observables en componentes de Angular, evitando así posibles fugas de memoria causadas por observables no desuscritos adecuadamente. Además, proporciona una lista negra opcional para excluir propiedades específicas de la desuscripción automática si es necesario.
+
+```tsx
+import { AutoUnsubscribe } from '@helpers';
+import { Subscription } from 'rxjs';
+import {CustomService } from '@services'
+
+export class YourComponent {
+	subscription = new Subscription()
+	constructor(
+			private: _service: CustomService
+	) {
+		//y ya está! Aquí tienes tu suscripción sin necesidad de desuscribirte desde el componente.
+		this.subscription = this._service.getData().subscribe()
+  	}
+}
+```
+
+Y ya está. 🚀
+
+Automáticamente cuando el componente de destruya se ejecutará la función y se desuscribirá, evitando así problemas de memoria.
+
+Te recomiendo que visites la documentación oficial de RxJS para ver el funcionamiento y todos los operadores disponibles: [https://rxjs.dev/api](https://rxjs.dev/api)
+
+Si te ha gustado este artículo no dudes en compartirlo en tus redes. 😊
+
+Échale un vistazo a mi [blog](https://blog.bmrd.dev/), donde podrás encontrar más artículos sobre Angular.
