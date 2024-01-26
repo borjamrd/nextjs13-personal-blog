@@ -1,0 +1,136 @@
+---
+image: /posts/release.png
+title: "Angular 17: show app version, automate releases and update changelog"
+subtitle: "Learn how to automate your project's releases and changelog while showing current version"
+date: "25-10-2023"
+---
+
+![github](/posts/release.png "release")
+
+### Table of Contents
+
+
+##Angular 17: show app version, automate releases and update changelog
+
+Purpose of this article:
+
+1. Display your current Angular version
+2. Create changelog in order to see historical commits and changes in your project.
+3. Automate new releases and upload them to your Github repository
+
+
+If you need to replicate exactly this steps I’ll recommend you:
+
+- Fork directly this repo: https://github.com/borjamrd/auto-release
+- Create a Github repository and stablish “main” as the default branch.
+
+
+`release-it` is a powerful tool that simplifies the process of creating and publishing new releases for your software projects. It automates many of the tedious tasks involved in releasing new versions, such as generating changelogs, creating release notes, and updating package registries. You can find more info here: https://github.com/release-it/release-it
+
+Check that in your `tsconfig.json` file you have enabled `resolveJsonModule` . By default, TypeScript will not treat JSON files as modules, so you will not be able to import them directly. However, if you set `resolveJsonModule` to `true`, TypeScript will resolve JSON files as if they were regular JavaScript modules.
+
+```jsx
+//ts.config.json
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "resolveJsonModule": true,  //<<
+    "lib": [
+      "ES2022",
+      "dom"
+    ]
+  },
+}
+```
+
+Now in your `app.component.ts` you can import directly your application’s version from `package.json` and display it on the template:
+
+```jsx
+//app.component.html
+<h1>{{title}}</h1>
+<span>{{version}}</span>
+<router-outlet></router-outlet>
+```
+
+```tsx
+//app.component.ts
+import { version } from '../../package.json';
+
+export class AppComponent {
+  title = 'auto-release';
+  public version;
+  constructor() {
+    this.version = version;
+  }
+}
+```
+
+Install for development the `release-it` package.
+
+```powershell
+npm i -D release-it
+```
+
+Let’s create in our root folder a `.release-it.json` file and add the followind commands.
+
+```json
+//.release-it.json
+{
+  "github": {
+    "release": true
+  },
+  "git": {
+    "requireBranch": "main",
+    "commitMessage": "chore: release v${version}"
+  },
+  "hooks": {
+    "before:init": ["git pull origin main"],
+    "after:bump": "npx auto-changelog -p"
+  }
+}
+```
+
+Explanation step by step:
+
+**1. GitHub Integration:**
+
+- `"github": { "release": true }`: This enables integration with GitHub, allowing Release-it to create and publish releases to your GitHub repository.
+
+**2. Git Configuration:**
+
+- `"git": { "requireBranch": "main" }`: Specifies that the release should be performed on the `main` branch.
+- `"commitMessage": "chore: release v${version}" }`: Defines the commit message for the release commit, using the placeholder `${version}` to inject the actual version number.
+
+**3. Hooks Configuration:**
+
+Hooks are optional tasks that can be executed before or after specific stages of the release process. In this case, two hooks are defined:
+
+- `"before:init": ["git pull origin main"]` : This hook runs before the initial release process begins. It executes the command `git pull origin main`, which ensures that the local repository is up-to-date with the remote repository before performing the release.
+- `"after:bump": "npx auto-changelog -p"` : This hook runs after the version has been bumped, typically after a successful release commit. It executes the command `npx auto-changelog -p`, which generates a changelog based on the commit history since the previous release. The `-p` flag indicates that the changelog should be formatted for publishing to GitHub.
+
+With this settled you can now add a new script in your `package.json` 
+
+```json
+"scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "release": "release-it"  //<<<
+  },
+```
+
+Run `npm run relase` and check how magic does its work.
+
+
+![github](/posts/release2.png "release2")
+
+Check also that your CHANGELOG.md file has been created succesfully:
+
+
+![github](/posts/release3.png "release3")
